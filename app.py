@@ -51,13 +51,13 @@ with col2:
     # Lista de términos económicos
     terminos_economicos = [
         "Acción humana", "Agio", "Apalancamiento", "Armonía de intereses", "Banca libre", "Beneficio económico", 
-        "Bienes de capital", "Bienes de consumo", "Bimetalismo", "Capital humano", "Capitalismo", "Catallaxy", 
+        "Bienes de capital", "Bienes de consumo", "Bimetalismo", "Capital humano", "Capitalismo", "Catalaxia", 
         "Cálculo económico", "Competencia perfecta", "Conocimiento disperso", "Costos de oportunidad", 
         "Crítica del socialismo", "Curva de preferencia temporal", "Desajuste del mercado", "Desempleo natural", 
         "Destrucción creativa", "Dilema del prisionero", "División del trabajo", "Doble contingencia", 
         "Economía del bienestar", "Economía subjetiva", "Eficiencia de Pareto", "Eficiencia dinámica", 
         "Empresario", "Equilibrio económico", "Equilibrio general", "Escuela Austríaca", "Escuela de Viena", 
-        "Estructura del capital", "Falacia del costo hundido", "Función empresarial", "Ganancia empresarial", 
+        "Estructura del capital", "Ëxternalidades", "Falacia del costo hundido", "Función empresarial", "Ganancia empresarial", 
         "Heterogeneidad del capital", "Horizonte temporal", "Imposición fiscal", "Incentivos económicos", 
         "Inflación", "Interés", "Intervencionismo", "Inversión de capital", "Ley de la oferta y la demanda", 
         "Ley de los rendimientos decrecientes", "Ley de Say", "Libertad económica", "Libertarismo", 
@@ -70,7 +70,7 @@ with col2:
         "Sistema de precios", "Sociedad abierta", "Subjetivismo", "Subproducción", "Substitución", 
         "Tasa de interés natural", "Teoría de la eficiencia", "Teoría del capital", "Teoría del ciclo económico", 
         "Teoría del valor", "Teoría del valor subjetivo", "Teoría del valor y precio", "Título de propiedad", 
-        "Utilidad", "Utilidad marginal", "Valor de cambio", "Valor de uso", "Valor esperado", "Valor subjetivo", 
+        "ragedia de los comunes", "Utilidad", "Utilidad marginal", "Valor de cambio", "Valor de uso", "Valor esperado", 
         "Valor trabajo", "Ventaja comparativa", "Voluntarismo", "Vulnerabilidad económica"
     ]
 
