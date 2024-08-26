@@ -70,7 +70,7 @@ with col2:
         "Sistema de precios", "Sociedad abierta", "Subjetivismo", "Subproducción", "Substitución", 
         "Tasa de interés natural", "Teoría de la eficiencia", "Teoría del capital", "Teoría del ciclo económico", 
         "Teoría del valor", "Teoría del valor subjetivo", "Teoría del valor y precio", "Título de propiedad", 
-        "ragedia de los comunes", "Utilidad", "Utilidad marginal", "Valor de cambio", "Valor de uso", "Valor esperado", 
+        "Tragedia de los comunes", "Utilidad", "Utilidad marginal", "Valor de cambio", "Valor de uso", "Valor esperado", 
         "Valor trabajo", "Ventaja comparativa", "Voluntarismo", "Vulnerabilidad económica"
     ]
 
