@@ -101,7 +101,7 @@ with col2:
             "temperature": 0,
             "top_p": 0.7,
             "top_k": 50,
-            "repetition_penalty": 1,
+            "repetition_penalty": 0,
             "stop": ["Término:"]
         })
         headers = {
