@@ -23,17 +23,17 @@ def crear_columna_info():
     5. Si lo desea, descargue un documento DOCX con toda la información.
 
     ### Autor y actualización:
-    **Moris Polanco**, 25 ag 2024
+    **Moris Polanco**, 26 ag 2024
 
     ### Cómo citar esta aplicación (formato APA):
-    Polanco, M. (2024). *Diccionario Económico de la Escuela Austríaca* [Aplicación web]. https://ecoaustriaca.streamlit.app
+    Polanco, M. (2024). *Diccionario Económico de la Escuela Austríaca* [Aplicación web]. https://dicaustriaca.streamlit.app
 
     ---
     **Nota:** Esta aplicación utiliza inteligencia artificial para generar definiciones basadas en información disponible en línea. Siempre verifique la información con fuentes académicas para un análisis más profundo.
     """)
 
 # Título de la aplicación
-st.title("Diccionario Económico de la Escuela Austríaca de Economía")
+st.title("Diccionario Económico de la Escuela Austríaca")
 
 # Crear un diseño de dos columnas
 col1, col2 = st.columns([1, 2])
@@ -48,30 +48,42 @@ with col2:
     TOGETHER_API_KEY = st.secrets["TOGETHER_API_KEY"]
     SERPER_API_KEY = st.secrets["SERPER_API_KEY"]
 
-    # Lista de términos económicos (Escuela Austríaca de Economía)
+    # Lista de términos económicos
     terminos_economicos = [
-        "Acción humana", "Agio", "Apalancamiento", "Armonía de intereses", "Beneficio económico", "Banca libre",
-        "Capital humano", "Cálculo económico", "Catallaxy", "Conocimiento disperso", "Costos de oportunidad",
-        "Crítica del socialismo", "Destrucción creativa", "División del trabajo", "Economía subjetiva", "Eficiencia dinámica",
-        "Empresario", "Equilibrio", "Escuela Austríaca", "Intervencionismo", "Función empresarial", "Inflación",
-        "Interés", "Ley de los rendimientos decrecientes", "Márgenes de ganancia", "Método praxeológico",
-        "Moneda sana", "Preferencia temporal", "Proceso de mercado", "Propiedad privada", "Rentabilidad",
-        "Salario", "Subjetivismo", "Teoría del capital", "Teoría del ciclo económico", "Utilidad marginal",
-        "Valor subjetivo", "Valor trabajo", "Ventaja comparativa", "Voluntarismo"
+        "Acción humana", "Agio", "Apalancamiento", "Armonía de intereses", "Banca libre", "Beneficio económico", 
+        "Bienes de capital", "Bienes de consumo", "Bimetalismo", "Capital humano", "Capitalismo", "Catallaxy", 
+        "Cálculo económico", "Competencia perfecta", "Conocimiento disperso", "Costos de oportunidad", 
+        "Crítica del socialismo", "Curva de preferencia temporal", "Desajuste del mercado", "Desempleo natural", 
+        "Destrucción creativa", "Dilema del prisionero", "División del trabajo", "Doble contingencia", 
+        "Economía del bienestar", "Economía subjetiva", "Eficiencia de Pareto", "Eficiencia dinámica", 
+        "Empresario", "Equilibrio económico", "Equilibrio general", "Escuela Austríaca", "Escuela de Viena", 
+        "Estructura del capital", "Falacia del costo hundido", "Función empresarial", "Ganancia empresarial", 
+        "Heterogeneidad del capital", "Horizonte temporal", "Imposición fiscal", "Incentivos económicos", 
+        "Inflación", "Interés", "Intervencionismo", "Inversión de capital", "Ley de la oferta y la demanda", 
+        "Ley de los rendimientos decrecientes", "Ley de Say", "Libertad económica", "Libertarismo", 
+        "Margen de ganancia", "Margen de utilidad", "Método praxeológico", "Método subjetivo", "Moneda fiduciaria", 
+        "Moneda sana", "Monopolio natural", "Niveles de intervención", "Óptimo de Pareto", "Orden espontáneo", 
+        "Preferencia por la liquidez", "Preferencia temporal", "Precio de equilibrio", "Precios relativos", 
+        "Problema del cálculo económico", "Proceso de mercado", "Propiedad común", "Propiedad privada", 
+        "Racionalidad limitada", "Reducción de riesgos", "Rentabilidad", "Restricción presupuestaria", 
+        "Riesgo moral", "Rutas del mercado", "Salario real", "Selección adversa", "Señales de precios", 
+        "Sistema de precios", "Sociedad abierta", "Subjetivismo", "Subproducción", "Substitución", 
+        "Tasa de interés natural", "Teoría de la eficiencia", "Teoría del capital", "Teoría del ciclo económico", 
+        "Teoría del valor", "Teoría del valor subjetivo", "Teoría del valor y precio", "Título de propiedad", 
+        "Utilidad", "Utilidad marginal", "Valor de cambio", "Valor de uso", "Valor esperado", "Valor subjetivo", 
+        "Valor trabajo", "Ventaja comparativa", "Voluntarismo", "Vulnerabilidad económica"
     ]
 
-    # Lista de autores (Escuela Austríaca de Economía)
+    # Lista de autores de la Escuela Austríaca de Economía
     autores_austriacos = [
-        "Carl Menger", "Ludwig von Mises", "Friedrich Hayek", "Murray Rothbard", "Israel Kirzner",
-        "Eugen von Böhm-Bawerk", "Hans-Hermann Hoppe", "Ludwig Lachmann", "Joseph Schumpeter",
-        "Henry Hazlitt", "Friedrich von Wieser", "Richard von Strigl", "Jörg Guido Hülsmann", "Jesús Huerta de Soto",
-        "George Reisman", "Walter Block", "Lew Rockwell"
+        "Ludwig von Mises", "Friedrich Hayek", "Carl Menger", "Eugen von Böhm-Bawerk", "Murray Rothbard", 
+        "Israel Kirzner", "Hans-Hermann Hoppe", "Joseph Schumpeter", "Ludwig Lachmann", "Walter Block"
     ]
 
     def buscar_informacion(query, autor):
         url = "https://google.serper.dev/search"
         payload = json.dumps({
-            "q": f"{query} {autor} Escuela Austríaca economía"
+            "q": f"{query} {autor} Escuela Austríaca de Economía"
         })
         headers = {
             'X-API-KEY': SERPER_API_KEY,
@@ -101,7 +113,7 @@ with col2:
 
     def create_docx(termino, definiciones, fuentes):
         doc = Document()
-        doc.add_heading('Diccionario Económico - Escuela Austríaca de Economía', 0)
+        doc.add_heading('Diccionario Económico - Escuela Austríaca', 0)
 
         doc.add_heading('Término', level=1)
         doc.add_paragraph(termino)
@@ -144,44 +156,30 @@ with col2:
                     for autor in autores_seleccionados:
                         # Buscar información relevante
                         resultados_busqueda = buscar_informacion(termino, autor)
-                        contexto = "\n".join([result.get('snippet', '') for result in resultados_busqueda.get('organic', [])])
+                        contexto = "\n".join([item["snippet"] for item in resultados_busqueda.get("organic", [])])
+                        fuentes = [item["link"] for item in resultados_busqueda.get("organic", [])]
 
                         # Generar definición
                         definicion = generar_definicion(termino, autor, contexto)
-                        definiciones[autor] = definicion
 
-                        # Recopilar fuentes
-                        fuentes = [f"{resultado['title']}: {resultado['link']}" for resultado in resultados_busqueda.get('organic', [])[:3]]
+                        definiciones[autor] = definicion
                         todas_fuentes.extend(fuentes)
 
-                    # Mostrar definiciones
-                    st.write(f"Definiciones de '{termino}':")
+                    # Mostrar las definiciones
+                    st.subheader(f"Definiciones para el término: {termino}")
                     for autor, definicion in definiciones.items():
-                        st.write(f"\nSegún {autor}:")
-                        st.write(definicion)
+                        st.markdown(f"**{autor}:** {definicion}")
 
-                    # Mostrar fuentes
-                    st.write("\nFuentes:")
-                    for fuente in todas_fuentes:
-                        st.write(f"- {fuente}")
-
-                    # Crear documento DOCX
+                    # Botón para descargar el documento
                     doc = create_docx(termino, definiciones, todas_fuentes)
-
-                    # Guardar el documento DOCX en memoria
-                    docx_file = BytesIO()
-                    doc.save(docx_file)
-                    docx_file.seek(0)
-
-                    # Opción para exportar a DOCX
+                    buffer = BytesIO()
+                    doc.save(buffer)
+                    buffer.seek(0)
                     st.download_button(
-                        label="Descargar definiciones como DOCX",
-                        data=docx_file,
-                        file_name=f"definiciones_{termino.lower().replace(' ', '_')}.docx",
-                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        label="Descargar definición en DOCX",
+                        data=buffer,
+                        file_name=f"Definicion_{termino.replace(' ', '_')}.docx",
+                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     )
-
-            elif not termino:
-                st.warning("Por favor, selecciona o ingresa un término.")
-            elif not autores_seleccionados:
-                st.warning("Por favor, selecciona al menos un autor.")
+            else:
+                st.warning("Por favor, selecciona un término y al menos un autor.")
