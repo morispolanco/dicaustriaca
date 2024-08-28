@@ -46,7 +46,25 @@ with col2:
 
     # 101 economic terms related to the Austrian school of economics
     terminos_economicos = sorted([
-        "Acción Humana", "Ahorro", "Aranceles", "Armonía Económica"
+        "Acción Humana", "Ahorro", "Aranceles", "Armonía Económica", "Avería", "Banco Central",
+        "Bienes de Capital", "Bienes Intermedios", "Bienes de Consumo", "Capitalismo", "Competencia",
+        "Competencia Monopolística", "Competencia Perfecta", "Conocimiento", "Costo de Oportunidad",
+        "Crédito", "Crecimiento Económico", "Ciclo Económico", "Deflación", "Demanda", "División del Trabajo",
+        "Doble Coincidencia de Deseos", "Eficiencia", "Elasticidad", "Emprendimiento", "Equilibrio Económico",
+        "Especialización", "Espontaneidad", "Esperanza de Vida", "Estado de Derecho", "Externalidades",
+        "Factor de Producción", "Federalismo", "Fiduciario", "Función Empresarial", "Futuro", "Gasto Público",
+        "Inflación", "Instituciones", "Interés", "Inversión", "Intervencionismo", "Libre Mercado",
+        "Mecanismo de Precios", "Mercado", "Microeconomía", "Modelo de Competencia", "Moneda",
+        "Monopolio", "Oferta", "Orden Espontáneo", "Paradigma", "Pareto", "Plusvalía", "Poder Adquisitivo",
+        "Política Económica", "Ponderación", "Precio", "Preferencia de Tiempo", "Preferencias", "Producción",
+        "Productividad", "Propiedad Privada", "Proteccionismo", "Racionalidad", "Recurso Económico",
+        "Redistribución de la Riqueza", "Regulación", "Renta", "Riesgo", "Sector Público", "Sector Privado",
+        "Seguridad Jurídica", "Servicio", "Sistema Económico", "Soberanía del Consumidor", "Sociedad Abierta",
+        "Subsidio", "Sujeto Económico", "Tasa de Interés", "Teoría del Ciclo Económico", "Trabajo", "Valor",
+        "Valor de Uso", "Valor del Cambio", "Ventaja Competitiva", "Ventaja Comparativa", "Verosimilitud",
+        "Voluntad Individual", "Bienes Públicos", "Economía de Escala", "Heterogénea del Capital",
+        "Cálculo Económico", "Teoría del Capital", "Preferencia Temporal", "Productividad Marginal",
+        "Interés Natural", "Subsidiaridad", "Humano Acción", "Reconstrucción" 
     ])
 
     def buscar_informacion(query):
@@ -79,11 +97,11 @@ with col2:
         response = requests.post(url, headers=headers, data=payload)
         return response.json()['output']['choices'][0]['text'].strip()
 
-    def create_docx(definiciones):
+    def create_docx(terminos_definiciones_fuentes):
         doc = Document()
         doc.add_heading('Diccionario Económico - Escuela Austríaca', 0)
 
-        for termino, definicion, fuentes in definiciones:
+        for termino, definicion, fuentes in terminos_definiciones_fuentes:
             doc.add_heading('Término', level=1)
             doc.add_paragraph(termino)
             doc.add_heading('Definición', level=2)
@@ -98,11 +116,15 @@ with col2:
 
         return doc
 
-    if st.button("Generar todas las definiciones"):
-        definiciones = []
+    def generar_todas_las_entradas():
+        terminos_definiciones_fuentes = []
+
         for termino in terminos_economicos:
             st.write(f"Procesando término: {termino}")
+            # Buscar información relevante
             resultados_busqueda = buscar_informacion(termino)
+            if resultados_busqueda is None:
+                continue  # Saltar este término si hubo un error en la búsqueda
             contexto = "\n".join([item["snippet"] for item in resultados_busqueda.get("results", [])])
             fuentes = [{
                 "author": item["author"] if "author" in item else "Autor desconocido",
@@ -115,18 +137,28 @@ with col2:
                 "url": item["url"]
             } for item in resultados_busqueda.get("results", [])]
 
+            # Generar definición
             definicion = generar_definicion(termino, contexto)
-            definiciones.append((termino, definicion, fuentes))
+
+            # Añadir a la lista de resultados
+            terminos_definiciones_fuentes.append((termino, definicion, fuentes))
             sleep(1)  # Añadir un pequeño retraso para no sobrecargar el servidor
 
-        # Crear el documento DOCX
-        doc = create_docx(definiciones)
+        # Crear y guardar el archivo DOCX
+        doc = create_docx(terminos_definiciones_fuentes)
         buffer = BytesIO()
         doc.save(buffer)
         buffer.seek(0)
-        st.download_button(
-            label="Descargar todas las definiciones en DOCX",
-            data=buffer,
-            file_name="Diccionario_Económico_Austriaco.docx",
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        )
+        return buffer
+
+    # UI para generación en batch
+    if st.button("Generar todas las entradas en batch"):
+        with st.spinner("Generando todas las entradas del diccionario..."):
+            doc_buffer = generar_todas_las_entradas()
+            if doc_buffer:
+                st.download_button(
+                    label="Descargar todas las definiciones en DOCX",
+                    data=doc_buffer,
+                    file_name="Diccionario_Economico_Austriaco_Batch.docx",
+                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                )
