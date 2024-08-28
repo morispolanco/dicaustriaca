@@ -25,7 +25,7 @@ def crear_columna_info():
     **Moris Polanco**, 28 ag 2024
 
     ### Cómo citar esta aplicación (formato APA):
-    Polanco, M. (2024). *Diccionario Económico Austríaco* [Aplicación web]. https://economiaaustriaca.streamlit.app
+    Polanco, M. (2024). *Diccionario Económico Austríaco* [Aplicación web]. https://escuelaaustriaca.streamlit.app
 
     ---
     **Nota:** Esta aplicación utiliza inteligencia artificial para generar definiciones basadas en la visión de la escuela austríaca. Verifique la información con fuentes adicionales para un análisis más profundo.
