@@ -16,7 +16,7 @@ def crear_columna_info():
 
     ### Cómo usar la aplicación:
 
-    1. Elija un término económico de la lista predefinida.
+    1. Elija un término económico de la lista predefinida o proponga su propio término.
     2. Haga clic en "Generar entrada de diccionario" para obtener la definición desde la perspectiva de la Escuela Austríaca.
     3. Lea la definición y las fuentes proporcionadas.
     4. Si lo desea, descargue un documento DOCX con toda la información.
@@ -65,6 +65,9 @@ with col2:
         "Utilidad marginal", "Valor", "Valor presente", "Velocidad de circulación del dinero", "Ventaja comparativa",
         "Voluntarismo"
     ])
+
+    # Add "Propón tu propio término" option
+    terminos_economicos.append("Propón tu propio término")
 
     def buscar_informacion(query):
         url = f"https://api.serply.io/v1/scholar/q={query} Austrian School of Economics"
@@ -116,9 +119,13 @@ with col2:
 
         return doc
 
-    st.write("Elige un término económico de la lista:")
+    st.write("Elige un término económico de la lista o propón el tuyo:")
 
     termino = st.selectbox("Selecciona un término:", terminos_economicos)
+
+    # If user selects "Propón tu propio término", show an input field
+    if termino == "Propón tu propio término":
+        termino = st.text_input("Ingresa tu propio término económico:")
 
     if st.button("Generar entrada de diccionario"):
         if termino:
@@ -156,4 +163,4 @@ with col2:
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 )
         else:
-            st.warning("Por favor, selecciona un término.")
+            st.warning("Por favor, selecciona o ingresa un término.")
