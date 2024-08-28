@@ -16,10 +16,11 @@ def crear_columna_info():
 
     ### Cómo usar la aplicación:
 
-    1. Elija un término económico de la lista predefinida o seleccione "Propón tu propio término" para ingresar uno nuevo.
-    2. Haga clic en "Generar entrada de diccionario" para obtener la definición desde la perspectiva de la Escuela Austríaca.
-    3. Lea la definición y las fuentes proporcionadas.
-    4. Si lo desea, descargue un documento DOCX con toda la información.
+    1. Elija si desea seleccionar un término de la lista predefinida o proponer su propio término.
+    2. Seleccione o ingrese el término económico de interés.
+    3. Haga clic en "Generar entrada de diccionario" para obtener la definición desde la perspectiva de la Escuela Austríaca.
+    4. Lea la definición y las fuentes proporcionadas.
+    5. Si lo desea, descargue un documento DOCX con toda la información.
 
     ### Autor y actualización:
     **Moris Polanco**, 28 ag 2024
@@ -65,9 +66,6 @@ with col2:
         "Utilidad marginal", "Valor", "Valor presente", "Velocidad de circulación del dinero", "Ventaja comparativa",
         "Voluntarismo"
     ])
-
-    # Add "Propón tu propio término" option
-    terminos_economicos.append("Propón tu propio término")
 
     def buscar_informacion(query):
         url = f"https://api.serply.io/v1/scholar/q={query} Austrian School of Economics"
@@ -119,15 +117,13 @@ with col2:
 
         return doc
 
-    st.write("Elige un término económico de la lista o propón el tuyo:")
-
-    seleccion = st.selectbox("Selecciona un término:", terminos_economicos)
-
-    # If user selects "Propón tu propio término", show an input field
-    if seleccion == "Propón tu propio término":
-        termino = st.text_input("Ingresa tu propio término económico:")
+    # Interfaz de usuario
+    st.write("Elige un término económico de la lista o propón tu propio término:")
+    opcion = st.radio("", ["Elegir de la lista", "Proponer mi propio término"])
+    if opcion == "Elegir de la lista":
+        termino = st.selectbox("Selecciona un término:", terminos_economicos)
     else:
-        termino = seleccion
+        termino = st.text_input("Ingresa tu propio término económico:")
 
     if st.button("Generar entrada de diccionario"):
         if termino:
@@ -147,7 +143,7 @@ with col2:
                 } for item in resultados_busqueda.get("results", [])]
 
                 # Generar definición
-                definicion = generar_definicion(termino, contexto)
+                definicion = generar_definition(termino, contexto)
 
                 # Mostrar la definición
                 st.subheader(f"Definición para el término: {termino}")
