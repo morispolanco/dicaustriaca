@@ -68,34 +68,47 @@ with col2:
     ])
 
     def buscar_informacion(query):
-        url = f"https://api.serply.io/v1/scholar/q={query} Austrian School of Economics"
-        headers = {
-            'X-Api-Key': SERPLY_API_KEY,
-            'Content-Type': 'application/json',
-            'X-Proxy-Location': 'US',
-            'X-User-Agent': 'Mozilla/5.0'
-        }
-        response = requests.get(url, headers=headers)
-        return response.json()
+        try:
+            url = f"https://api.serply.io/v1/scholar/q={query} Austrian School of Economics"
+            headers = {
+                'X-Api-Key': SERPLY_API_KEY,
+                'Content-Type': 'application/json',
+                'X-Proxy-Location': 'US',
+                'X-User-Agent': 'Mozilla/5.0'
+            }
+            response = requests.get(url, headers=headers)
+            return response.json()
+        except Exception as e:
+            st.error(f"Error al buscar información: {e}")
+            return {}
 
     def generar_definicion(termino, contexto):
-        url = "https://api.together.xyz/inference"
-        payload = json.dumps({
-            "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-            "prompt": f"Contexto: {contexto}\n\nTérmino: {termino}\n\nProporciona una definición del término económico '{termino}' según la visión de la Escuela Austríaca de Economía. La definición debe ser detallada e informativa, similar a una entrada de diccionario extendida. Incluye referencias a economistas austriacos relevantes y conceptos relacionados.\n\nDefinición:",
-            "max_tokens": 2048,
-            "temperature": 0.7,
-            "top_p": 0.7,
-            "top_k": 50,
-            "repetition_penalty": 1,
-            "stop": ["Término:"]
-        })
-        headers = {
-            'Authorization': f'Bearer {TOGETHER_API_KEY}',
-            'Content-Type': 'application/json'
-        }
-        response = requests.post(url, headers=headers, data=payload)
-        return response.json()['choices'][0]['text'].strip()
+        try:
+            url = "https://api.together.xyz/inference"
+            payload = json.dumps({
+                "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+                "prompt": f"Contexto: {contexto}\n\nTérmino: {termino}\n\nProporciona una definición del término económico '{termino}' según la visión de la Escuela Austríaca de Economía. La definición debe ser detallada e informativa, similar a una entrada de diccionario extendida. Incluye referencias a economistas austriacos relevantes y conceptos relacionados.\n\nDefinición:",
+                "max_tokens": 2048,
+                "temperature": 0.7,
+                "top_p": 0.7,
+                "top_k": 50,
+                "repetition_penalty": 1,
+                "stop": ["Término:"]
+            })
+            headers = {
+                'Authorization': f'Bearer {TOGETHER_API_KEY}',
+                'Content-Type': 'application/json'
+            }
+            response = requests.post(url, headers=headers, data=payload)
+            response_json = response.json()
+            if 'choices' in response_json and len(response_json['choices']) > 0:
+                return response_json['choices'][0]['text'].strip()
+            else:
+                st.error("No se pudo generar una definición.")
+                return ""
+        except Exception as e:
+            st.error(f"Error al generar la definición: {e}")
+            return ""
 
     def format_apa(reference):
         # Function to format a reference in APA style
