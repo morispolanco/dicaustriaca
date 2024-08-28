@@ -5,19 +5,19 @@ from docx import Document
 from io import BytesIO
 
 # Set page configuration
-st.set_page_config(page_title="Diccionario Cultural Maya", page_icon="📚", layout="wide")
+st.set_page_config(page_title="Diccionario Económico Austríaco", page_icon="📚", layout="wide")
 
 # Function to create the information column
 def crear_columna_info():
     st.markdown("""
     ## Sobre esta aplicación
 
-    Esta aplicación es un Diccionario Cultural basado en la visión de la cultura Maya. Permite a los usuarios obtener definiciones de términos culturales según la interpretación de la cosmovisión maya.
+    Esta aplicación es un Diccionario Económico basado en la perspectiva de la Escuela Austríaca de Economía. Permite a los usuarios obtener definiciones de términos económicos según esta interpretación.
 
     ### Cómo usar la aplicación:
 
-    1. Elija un término cultural de la lista predefinida.
-    2. Haga clic en "Generar entrada de diccionario" para obtener la definición desde la perspectiva maya.
+    1. Elija un término económico de la lista predefinida o ingrese su propio término.
+    2. Haga clic en "Generar entrada de diccionario" para obtener la definición desde la perspectiva de la escuela austríaca.
     3. Lea la definición y las fuentes proporcionadas.
     4. Si lo desea, descargue un documento DOCX con toda la información.
 
@@ -25,14 +25,14 @@ def crear_columna_info():
     **Moris Polanco**, 28 ag 2024
 
     ### Cómo citar esta aplicación (formato APA):
-    Polanco, M. (2024). *Diccionario Cultural Maya* [Aplicación web]. https://culturamaya.streamlit.app
+    Polanco, M. (2024). *Diccionario Económico Austríaco* [Aplicación web]. https://economiaaustriaca.streamlit.app
 
     ---
-    **Nota:** Esta aplicación utiliza inteligencia artificial para generar definiciones basadas en la visión maya. Verifique la información con fuentes adicionales para un análisis más profundo.
+    **Nota:** Esta aplicación utiliza inteligencia artificial para generar definiciones basadas en la visión de la escuela austríaca. Verifique la información con fuentes adicionales para un análisis más profundo.
     """)
 
 # Titles and Main Column
-st.title("Diccionario Cultural Maya")
+st.title("Diccionario Económico Austríaco")
 
 col1, col2 = st.columns([1, 2])
 
@@ -43,24 +43,27 @@ with col2:
     TOGETHER_API_KEY = st.secrets["TOGETHER_API_KEY"]
     SERPLY_API_KEY = st.secrets["SERPLY_API_KEY"]
 
-    # 101 cultural terms related to the Maya perspective
-    terminos_culturales = sorted([
-         "Ajaw", "Balam (Jaguar)", "Ceiba (Árbol sagrado)", "Chaac (Dios de la lluvia)", "Ch'ulel (Espíritu o alma)",
-        "Cosmovisión", "Creador", "Destino", "Dualidad", "Dzuli (Extranjero)", "Etnia", "Familia", "Hunab Ku (Dios supremo)",
-        "Ik' (Viento)", "Itzamná (Dios del cielo)", "Ixchel (Diosa de la luna)", "Ja' (Agua)", "K'uh (Divinidad)",
-        "Kukulcán (Serpiente emplumada)", "Lak'in (Punto cardinal este)", "Maíz (Elemento vital)", "Muerte",
-        "Nahualismo (Creencia en el espíritu animal)", "Nación", "Naturaleza", "Noche", "Noj (Sabiduría)",
-        "Oxlahun ti' k'uh (Trece dioses)", "Pawahtun (Dioses del inframundo)", "Persona", "Q'anil (Semilla)",
-        "Religión", "Sak Nikte' (Flor blanca)", "Sak'ij (Iluminación)", "Sol", "Suerte", "Tezcatlipoca (Espejo humeante)",
-        "Tierra", "Tikal (Ciudad maya)", "Toj (Tributo)", "Tzolkin (Calendario sagrado)", "Uinal (Mes maya)",
-        "Uxmal (Tres veces construido)", "Viento", "Wak (Seis)", "Xibalbá (Inframundo maya)", "Yaxché (Árbol de la vida)",
-        "Yuum k’aax (Dios de los bosques)", "Yuum ik’ (Dios del viento)", "Zama (Amanecer)", "Creación", "Espacio-tiempo",
-        "Espíritu", "Fertilidad", "Fuego", "Identidad", "Inframundo", "Jaguar", "Kukulkan", "Luna", "Madera", "Maya",
-        "Muerte", "Origen", "Paz", "Poder", "Pueblo", "Respiración", "Sacerdote", "Sociedad", "Sol", "Tiempo",
-        "Tradición", "Trascendencia", "Unión", "Viento", "Vida", "Visión", "Voluntad", "Agua", "Animales", "Árboles",
-        "Comunión", "Confianza", "Crecimiento", "Cultivo", "Fuerza", "Hombres", "Mujeres", "Naturaleza", "Puntos cardinales",
-        "Reencarnación", "Ritual", "Sabiduría", "Salud", "Sueño", "Tierra", "Universo", "Vitalidad", "Xenil (Camino)",
-        "Yuum Kaax (Dios de la flora y fauna)"
+    # 101 economic terms related to the Austrian school of economics
+    terminos_economicos = sorted([
+        "Acción Humana", "Ahorro", "Aranceles", "Armonía Económica", "Avería", "Banco Central",
+        "Bienes de Capital", "Bienes Intermedios", "Bienes de Consumo", "Capitalismo", "Competencia",
+        "Competencia Monopolística", "Competencia Perfecta", "Conocimiento", "Costo de Oportunidad",
+        "Crédito", "Crecimiento Económico", "Ciclo Económico", "Deflación", "Demanda", "División del Trabajo",
+        "Doble Coincidencia de Deseos", "Eficiencia", "Elasticidad", "Emprendimiento", "Equilibrio Económico",
+        "Especialización", "Espontaneidad", "Esperanza de Vida", "Estado de Derecho", "Externalidades",
+        "Factor de Producción", "Federalismo", "Fiduciario", "Función Empresarial", "Futuro", "Gasto Público",
+        "Inflación", "Instituciones", "Interés", "Inversión", "Intervencionismo", "Libre Mercado",
+        "Mecanismo de Precios", "Mercado", "Microeconomía", "Modelo de Competencia", "Moneda",
+        "Monopolio", "Oferta", "Orden Espontáneo", "Paradigma", "Pareto", "Plusvalía", "Poder Adquisitivo",
+        "Política Económica", "Ponderación", "Precio", "Preferencia de Tiempo", "Preferencias", "Producción",
+        "Productividad", "Propiedad Privada", "Proteccionismo", "Racionalidad", "Recurso Económico",
+        "Redistribución de la Riqueza", "Regulación", "Renta", "Riesgo", "Sector Público", "Sector Privado",
+        "Seguridad Jurídica", "Servicio", "Sistema Económico", "Soberanía del Consumidor", "Sociedad Abierta",
+        "Subsidio", "Sujeto Económico", "Tasa de Interés", "Teoría del Ciclo Económico", "Trabajo", "Valor",
+        "Valor de Uso", "Valor del Cambio", "Ventaja Competitiva", "Ventaja Comparativa", "Verosimilitud",
+        "Voluntad Individual", "Bienes Públicos", "Economía de Escala", "Heterogénea del Capital",
+        "Cálculo Económico", "Teoría del Capital", "Preferencia Temporal", "Productividad Marginal",
+        "Interés Natural", "Subsidiaridad", "Humano Acción", "Reconstrucción" 
     ])
 
     def buscar_informacion(query):
@@ -78,7 +81,7 @@ with col2:
         url = "https://api.together.xyz/inference"
         payload = json.dumps({
             "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-            "prompt": f"Contexto: {contexto}\n\nTérmino: {termino}\n\nProporciona una definición del término cultural '{termino}' según la visión de la cultura Maya. La definición debe ser más larga, detallada, e informativa, similar a una entrada de diccionario extendida. Incluye referencias a fuentes específicas que traten este concepto.\n\nDefinición:",
+            "prompt": f"Contexto: {contexto}\n\nTérmino: {termino}\n\nProporciona una definición del término económico '{termino}' según la visión de la escuela austríaca de economía. La definición debe ser más larga, detallada, e informativa, similar a una entrada de diccionario extendida. Incluye referencias a fuentes específicas que traten este concepto.\n\nDefinición:",
             "max_tokens": 2048,
             "temperature": 0.7,
             "top_p": 0.7,
@@ -95,7 +98,7 @@ with col2:
 
     def create_docx(termino, definicion, fuentes):
         doc = Document()
-        doc.add_heading('Diccionario Cultural - Visión Maya', 0)
+        doc.add_heading('Diccionario Económico - Escuela Austríaca', 0)
 
         doc.add_heading('Término', level=1)
         doc.add_paragraph(termino)
@@ -103,7 +106,6 @@ with col2:
         doc.add_heading('Definición', level=2)
         doc.add_paragraph(definicion)
 
-        # Agregar "Fuentes" solo si hay fuentes disponibles
         if fuentes:
             doc.add_heading('Fuentes', level=1)
             for fuente in fuentes:
@@ -118,9 +120,9 @@ with col2:
     opcion = st.radio("", ["Elegir de la lista", "Proponer mi propio término"])
 
     if opcion == "Elegir de la lista":
-        termino = st.selectbox("Selecciona un término:", terminos_culturales)
+        termino = st.selectbox("Selecciona un término:", terminos_economicos)
     else:
-        termino = st.text_input("Ingresa tu propio término cultural:")
+        termino = st.text_input("Ingresa tu propio término económico:")
 
     if st.button("Generar entrada de diccionario"):
         if termino:
