@@ -26,7 +26,7 @@ def crear_columna_info():
     **Moris Polanco**, 28 ag 2024
 
     ### Cómo citar esta aplicación (formato APA):
-    Polanco, M. (2024). *Diccionario de Economía Austríaca* [Aplicación web]. https://escuelaaustriaca.streamlit.app
+    Polanco, M. (2024). *Diccionario de Economía Austríaca* [Aplicación web]. https://economiaaustriaca.streamlit.app
 
     ---
     **Nota:** Esta aplicación utiliza inteligencia artificial para generar definiciones basadas en la visión de la Escuela Austríaca. Verifique la información con fuentes adicionales para un análisis más profundo.
@@ -95,7 +95,23 @@ with col2:
             'Content-Type': 'application/json'
         }
         response = requests.post(url, headers=headers, data=payload)
-        return response.json()['output']['choices'][0]['text'].strip()
+        return response.json()['choices'][0]['text'].strip()
+
+    def format_apa(reference):
+        # Function to format a reference in APA style
+        author = reference.get("author", "Autor desconocido")
+        year = reference.get("year", "s.f.")
+        title = reference.get("title", "Título desconocido")
+        journal = reference.get("journal", "")
+        volume = reference.get("volume", "")
+        issue = reference.get("issue", "")
+        pages = reference.get("pages", "")
+        url = reference.get("url", "")
+
+        if journal:
+            return f"{author}. ({year}). {title}. *{journal}*, {volume}({issue}), {pages}. {url}"
+        else:
+            return f"{author}. ({year}). {title}. {url}"
 
     def create_docx(termino, definicion, fuentes):
         doc = Document()
@@ -111,7 +127,8 @@ with col2:
         if fuentes:
             doc.add_heading('Fuentes', level=1)
             for fuente in fuentes:
-                doc.add_paragraph(f"{fuente['author']}. ({fuente['year']}). *{fuente['title']}*. {fuente['journal']}, {fuente['volume']}({fuente['issue']}), {fuente['pages']}. {fuente['url']}", style='List Bullet')
+                formatted_reference = format_apa(fuente)
+                doc.add_paragraph(formatted_reference, style='List Bullet')
 
         doc.add_paragraph('\nNota: Este documento fue generado por un asistente de IA. Verifica la información con fuentes académicas para un análisis más profundo.')
 
@@ -132,13 +149,13 @@ with col2:
                 resultados_busqueda = buscar_informacion(termino)
                 contexto = "\n".join([item["snippet"] for item in resultados_busqueda.get("results", [])])
                 fuentes = [{
-                    "author": item["author"] if "author" in item else "Autor desconocido",
-                    "year": item["year"] if "year" in item else "s.f.",
+                    "author": item.get("author", "Autor desconocido"),
+                    "year": item.get("year", "s.f."),
                     "title": item["title"],
-                    "journal": item["journal"] if "journal" in item else "Revista desconocida",
-                    "volume": item["volume"] if "volume" in item else "",
-                    "issue": item["issue"] if "issue" in item else "",
-                    "pages": item["pages"] if "pages" in item else "",
+                    "journal": item.get("journal", "Revista desconocida"),
+                    "volume": item.get("volume", ""),
+                    "issue": item.get("issue", ""),
+                    "pages": item.get("pages", ""),
                     "url": item["url"]
                 } for item in resultados_busqueda.get("results", [])]
 
