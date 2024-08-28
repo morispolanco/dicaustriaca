@@ -143,7 +143,7 @@ with col2:
                 } for item in resultados_busqueda.get("results", [])]
 
                 # Generar definición
-                definicion = generar_definition(termino, contexto)
+                definicion = generar_definicion(termino, contexto)
 
                 # Mostrar la definición
                 st.subheader(f"Definición para el término: {termino}")
