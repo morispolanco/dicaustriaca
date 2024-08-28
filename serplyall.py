@@ -46,7 +46,26 @@ with col2:
 
     # 101 economic terms related to the Austrian school of economics
     terminos_economicos = sorted([
-        "Acción Humana", "Ahorro", "Aranceles", "Armonía Económica"
+        "Acción Humana", "Ahorro", "Aranceles", "Armonía Económica", "Avería", "Banco Central",
+        "Bienes de Capital", "Bienes Intermedios", "Bienes de Consumo", "Capitalismo", "Competencia",
+        "Competencia Monopolística", "Competencia Perfecta", "Conocimiento", "Costo de Oportunidad",
+        "Crédito", "Crecimiento Económico", "Ciclo Económico", "Deflación", "Demanda", "División del Trabajo",
+        "Doble Coincidencia de Deseos", "Eficiencia", "Elasticidad", "Emprendimiento", "Equilibrio Económico",
+        "Especialización", "Espontaneidad", "Esperanza de Vida", "Estado de Derecho", "Externalidades",
+        "Factor de Producción", "Federalismo", "Fiduciario", "Función Empresarial", "Futuro", "Gasto Público",
+        "Inflación", "Instituciones", "Interés", "Inversión", "Intervencionismo", "Libre Mercado",
+        "Mecanismo de Precios", "Mercado", "Microeconomía", "Modelo de Competencia", "Moneda",
+        "Monopolio", "Oferta", "Orden Espontáneo", "Paradigma", "Pareto", "Plusvalía", "Poder Adquisitivo",
+        "Política Económica", "Ponderación", "Precio", "Preferencia de Tiempo", "Preferencias", "Producción",
+        "Productividad", "Propiedad Privada", "Proteccionismo", "Racionalidad", "Recurso Económico",
+        "Redistribución de la Riqueza", "Regulación", "Renta", "Riesgo", "Sector Público", "Sector Privado",
+        "Seguridad Jurídica", "Servicio", "Sistema Económico", "Soberanía del Consumidor", "Sociedad Abierta",
+        "Subsidio", "Sujeto Económico", "Tasa de Interés", "Teoría del Ciclo Económico", "Trabajo", "Valor",
+        "Valor de Uso", "Valor del Cambio", "Ventaja Competitiva", "Ventaja Comparativa", "Verosimilitud",
+        "Voluntad Individual", "Bienes Públicos", "Economía de Escala", "Heterogénea del Capital",
+        "Cálculo Económico", "Teoría del Capital", "Preferencia Temporal", "Productividad Marginal",
+        "Interés Natural", "Subsidiaridad", "Humano Acción", "Reconstrucción"
+
     ])
 
     def buscar_informacion(query):
