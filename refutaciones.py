@@ -5,34 +5,34 @@ from docx import Document
 from io import BytesIO
 
 # Configuración de la página
-st.set_page_config(page_title="Diccionario de Términos Socialistas y Marxistas con Refutaciones Austríacas", page_icon="📚", layout="wide")
+st.set_page_config(page_title="Diccionario de Términos Socialistas y Marxistas con Refutaciones Filosóficas", page_icon="📚", layout="wide")
 
 # Función para crear la columna de información
 def crear_columna_info():
     st.markdown("""
     ## Sobre esta aplicación
 
-    Esta aplicación es un Diccionario de Términos Socialistas y Marxistas con Refutaciones desde la perspectiva de la Escuela Austríaca de Economía. Permite a los usuarios obtener definiciones de términos económicos socialistas o marxistas y sus correspondientes críticas desde un punto de vista liberal o austríaco.
+    Esta aplicación es un Diccionario de Términos Socialistas y Marxistas con Refutaciones desde una perspectiva filosófica y general. Permite a los usuarios obtener definiciones de términos económicos socialistas o marxistas y sus correspondientes críticas desde un punto de vista amplio y fundamentado.
 
     ### Cómo usar la aplicación:
 
     1. Elija un término o tesis socialista/marxista de la lista predefinida o proponga su propio término.
     2. Haga clic en "Obtener definición y refutación" para generar el contenido.
-    3. Lea la definición y la refutación proporcionada desde la perspectiva austríaca.
+    3. Lea la definición y la refutación filosófica proporcionada.
     4. Si lo desea, descargue un documento DOCX con toda la información.
 
     ### Autor y actualización:
     **Moris Polanco**, [Fecha actual]
 
     ### Cómo citar esta aplicación (formato APA):
-    Polanco, M. ([Año actual]). *Diccionario de Términos Socialistas y Marxistas con Refutaciones Austríacas* [Aplicación web]. [URL de la aplicación]
+    Polanco, M. ([Año actual]). *Diccionario de Términos Socialistas y Marxistas con Refutaciones Filosóficas* [Aplicación web]. [URL de la aplicación]
 
     ---
     **Nota:** Esta aplicación utiliza inteligencia artificial para generar definiciones y refutaciones basadas en información disponible en línea. Siempre verifique la información con fuentes académicas para un análisis más profundo.
     """)
 
 # Título de la aplicación
-st.title("Diccionario de Términos Socialistas y Marxistas con Refutaciones Austríacas")
+st.title("Diccionario de Términos Socialistas y Marxistas con Refutaciones Filosóficas")
 
 # Crear un diseño de dos columnas
 col1, col2 = st.columns([1, 2])
@@ -77,7 +77,24 @@ with col2:
         url = "https://api.together.xyz/inference"
         payload = json.dumps({
             "model": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-            "prompt": f"Contexto: {contexto}\n\nTérmino: {termino}\n\n1. Proporciona una definición concisa pero informativa del término o tesis socialista/marxista '{termino}', similar a una entrada de diccionario.\n\n2. Luego, proporciona una refutación o crítica desde la perspectiva de la Escuela Austríaca de Economía o el pensamiento liberal. La refutación debe ser clara, fundamentada y basada en los principios de la economía de libre mercado.\n\nDefinición:\n\nRefutación austríaca/liberal:",
+            "prompt": f"""Contexto: {contexto}
+
+Término: {termino}
+
+1. Proporciona una definición concisa pero informativa del término o tesis socialista/marxista '{termino}', similar a una entrada de diccionario.
+
+2. Luego, proporciona una refutación o crítica amplia y fundamentada desde un punto de vista general o filosófico. Esta refutación debe:
+   - Abordar los principios fundamentales y las implicaciones filosóficas del concepto.
+   - Considerar aspectos éticos, políticos y sociales más allá de lo puramente económico.
+   - Presentar argumentos lógicos y ejemplos históricos o teóricos relevantes.
+   - Explorar las posibles contradicciones o debilidades en la teoría.
+   - Ofrecer perspectivas alternativas de diferentes escuelas de pensamiento.
+
+La refutación debe ser equilibrada, académica y basada en un análisis crítico profundo.
+
+Definición:
+
+Refutación filosófica:""",
             "max_tokens": 2048,
             "temperature": 0,
             "top_p": 0.7,
@@ -104,7 +121,7 @@ with col2:
 
     def create_docx(termino, definicion, refutacion, fuentes):
         doc = Document()
-        doc.add_heading('Diccionario de Términos Socialistas y Marxistas con Refutaciones Austríacas', 0)
+        doc.add_heading('Diccionario de Términos Socialistas y Marxistas con Refutaciones Filosóficas', 0)
 
         doc.add_heading('Término', level=1)
         doc.add_paragraph(termino)
@@ -112,7 +129,7 @@ with col2:
         doc.add_heading('Definición', level=2)
         doc.add_paragraph(definicion)
 
-        doc.add_heading('Refutación Austríaca/Liberal', level=2)
+        doc.add_heading('Refutación Filosófica', level=2)
         doc.add_paragraph(refutacion)
 
         doc.add_heading('Fuentes', level=1)
@@ -147,7 +164,7 @@ with col2:
                     
                     if contenido:
                         # Dividir el contenido en definición y refutación
-                        partes = contenido.split("Refutación austríaca/liberal:")
+                        partes = contenido.split("Refutación filosófica:")
                         if len(partes) == 2:
                             definicion, refutacion = partes
                         else:
@@ -160,7 +177,7 @@ with col2:
                         st.subheader(f"Término: {termino}")
                         st.markdown("**Definición:**")
                         st.write(definicion.strip())
-                        st.markdown("**Refutación austríaca/liberal:**")
+                        st.markdown("**Refutación filosófica:**")
                         st.write(refutacion.strip())
 
                         # Botón para descargar el documento
