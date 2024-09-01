@@ -16,10 +16,10 @@ def crear_columna_info():
 
     ### Cómo usar la aplicación:
 
-    1. Elija un término o tesis socialista/marxista de la lista predefinida o proponga su propio término.
-    2. Haga clic en "Obtener definición y refutación" para generar el contenido.
-    3. Lea la definición y la refutación filosófica proporcionada.
-    4. Si lo desea, descargue un documento DOCX con toda la información.
+    1. Elige un término o tesis socialista/marxista de la lista predefinida o propón tu propio término.
+    2. Haz clic en "Obtener definición y refutación" para generar el contenido.
+    3. Lee la definición y la refutación filosófica proporcionada.
+    4. Si lo deseas, descarga un documento DOCX con toda la información.
 
     ### Autor y actualización:
     **Moris Polanco**, [Fecha actual]
@@ -28,7 +28,7 @@ def crear_columna_info():
     Polanco, M. ([Año actual]). *Diccionario de Términos Socialistas y Marxistas con Refutaciones Filosóficas* [Aplicación web]. [URL de la aplicación]
 
     ---
-    **Nota:** Esta aplicación utiliza inteligencia artificial para generar definiciones y refutaciones basadas en información disponible en línea. Siempre verifique la información con fuentes académicas para un análisis más profundo.
+    **Nota:** Esta aplicación utiliza inteligencia artificial para generar definiciones y refutaciones basadas en información disponible en línea. Siempre verifica la información con fuentes académicas para un análisis más profundo.
     """)
 
 # Título de la aplicación
@@ -67,7 +67,7 @@ with col2:
             'X-API-KEY': SERPER_API_KEY,
             'Content-Type': 'application/json'
         }
-        response = requests.request("POST", url, headers=headers, data=payload)
+        response = requests.post(url, headers=headers, data=payload)
         if response.status_code != 200:
             st.error(f"Error en la búsqueda: {response.status_code} - {response.text}")
             return None
@@ -106,12 +106,12 @@ Refutación filosófica:""",
             'Authorization': f'Bearer {TOGETHER_API_KEY}',
             'Content-Type': 'application/json'
         }
-        response = requests.request("POST", url, headers=headers, data=payload)
-        
+        response = requests.post(url, headers=headers, data=payload)
+
         if response.status_code != 200:
             st.error(f"Error en la API de Together: {response.status_code} - {response.text}")
             return None
-        
+
         try:
             return response.json()['output']['choices'][0]['text'].strip()
         except KeyError as e:
@@ -156,12 +156,12 @@ Refutación filosófica:""",
                 # Buscar información relevante
                 resultados_busqueda = buscar_informacion(termino)
                 if resultados_busqueda:
-                    contexto = "\n".join([item["snippet"] for item in resultados_busqueda.get("organic", [])])
+                    contexto = "\n".join([item["snippet"] for item in resultados_busqueda.get("organic", []) if "snippet" in item])
                     fuentes = [item["link"] for item in resultados_busqueda.get("organic", [])]
 
                     # Generar definición y refutación
                     contenido = generar_definicion_y_refutacion(termino, contexto)
-                    
+
                     if contenido:
                         # Dividir el contenido en definición y refutación
                         partes = contenido.split("Refutación filosófica:")
