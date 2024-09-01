@@ -68,6 +68,9 @@ with col2:
             'Content-Type': 'application/json'
         }
         response = requests.request("POST", url, headers=headers, data=payload)
+        if response.status_code != 200:
+            st.error(f"Error en la búsqueda: {response.status_code} - {response.text}")
+            return None
         return response.json()
 
     def generar_definicion_y_refutacion(termino, contexto):
@@ -87,7 +90,17 @@ with col2:
             'Content-Type': 'application/json'
         }
         response = requests.request("POST", url, headers=headers, data=payload)
-        return response.json()['output']['choices'][0]['text'].strip()
+        
+        if response.status_code != 200:
+            st.error(f"Error en la API de Together: {response.status_code} - {response.text}")
+            return None
+        
+        try:
+            return response.json()['output']['choices'][0]['text'].strip()
+        except KeyError as e:
+            st.error(f"Error al procesar la respuesta de la API de Together: {e}")
+            st.json(response.json())  # Muestra la respuesta completa para debug
+            return None
 
     def create_docx(termino, definicion, refutacion, fuentes):
         doc = Document()
@@ -125,30 +138,45 @@ with col2:
             with st.spinner("Buscando información y generando contenido..."):
                 # Buscar información relevante
                 resultados_busqueda = buscar_informacion(termino)
-                contexto = "\n".join([item["snippet"] for item in resultados_busqueda.get("organic", [])])
-                fuentes = [item["link"] for item in resultados_busqueda.get("organic", [])]
+                if resultados_busqueda:
+                    contexto = "\n".join([item["snippet"] for item in resultados_busqueda.get("organic", [])])
+                    fuentes = [item["link"] for item in resultados_busqueda.get("organic", [])]
 
-                # Generar definición y refutación
-                contenido = generar_definicion_y_refutacion(termino, contexto)
-                definicion, refutacion = contenido.split("Refutación austríaca/liberal:")
+                    # Generar definición y refutación
+                    contenido = generar_definicion_y_refutacion(termino, contexto)
+                    
+                    if contenido:
+                        # Dividir el contenido en definición y refutación
+                        partes = contenido.split("Refutación austríaca/liberal:")
+                        if len(partes) == 2:
+                            definicion, refutacion = partes
+                        else:
+                            st.error("No se pudo separar la definición de la refutación.")
+                            st.text(contenido)  # Mostrar el contenido completo para debug
+                            definicion = contenido
+                            refutacion = "No se pudo generar una refutación."
 
-                # Mostrar el contenido
-                st.subheader(f"Término: {termino}")
-                st.markdown("**Definición:**")
-                st.write(definicion.strip())
-                st.markdown("**Refutación austríaca/liberal:**")
-                st.write(refutacion.strip())
+                        # Mostrar el contenido
+                        st.subheader(f"Término: {termino}")
+                        st.markdown("**Definición:**")
+                        st.write(definicion.strip())
+                        st.markdown("**Refutación austríaca/liberal:**")
+                        st.write(refutacion.strip())
 
-                # Botón para descargar el documento
-                doc = create_docx(termino, definicion.strip(), refutacion.strip(), fuentes)
-                buffer = BytesIO()
-                doc.save(buffer)
-                buffer.seek(0)
-                st.download_button(
-                    label="Descargar contenido en DOCX",
-                    data=buffer,
-                    file_name=f"Definicion_y_Refutacion_{termino.replace(' ', '_')}.docx",
-                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                )
+                        # Botón para descargar el documento
+                        doc = create_docx(termino, definicion.strip(), refutacion.strip(), fuentes)
+                        buffer = BytesIO()
+                        doc.save(buffer)
+                        buffer.seek(0)
+                        st.download_button(
+                            label="Descargar contenido en DOCX",
+                            data=buffer,
+                            file_name=f"Definicion_y_Refutacion_{termino.replace(' ', '_')}.docx",
+                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        )
+                    else:
+                        st.error("No se pudo generar el contenido. Por favor, intenta de nuevo.")
+                else:
+                    st.error("No se pudo obtener información relevante. Por favor, intenta de nuevo.")
         else:
             st.warning("Por favor, selecciona o ingresa un término.")
